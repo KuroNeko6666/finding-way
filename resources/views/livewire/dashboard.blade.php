@@ -174,25 +174,70 @@
 
 
                 if (start && end) {
-                    [start, end].forEach(e => {
-                        console.log('s');
-                        let marker = new Image();
-                        marker.onload = function() {
-                            let map = new Konva.Image({
-                                x: e.x - ((marker.width / 10) /2),
-                                y: e.y - (marker.height / 10) ,
-                                image: marker,
-                                width: marker.width / 10,
-                                height: marker.height / 10,
-                            });
+                    let startM;
+                    let endM;
 
-                            // add the shape to the layer
-                            layer.add(map);
-                        };
-                        marker.src = '/img/m-red.png';
+                    let marker = new Image();
+                    marker.onload = function() {
+                        startM = new Konva.Image({
+                            x: start.x - ((marker.width / 10) / 2),
+                            y: start.y - (marker.height / 10),
+                            image: marker,
+                            width: marker.width / 10,
+                            height: marker.height / 10,
+                        });
+                        endM = new Konva.Image({
+                            x: end.x - ((marker.width / 10) / 2),
+                            y: end.y - (marker.height / 10),
+                            image: marker,
+                            width: marker.width / 10,
+                            height: marker.height / 10,
+                        });
 
-                        layer.draw();
-                    })
+                        layer.add(startM);
+                        layer.add(endM);
+
+                        var amplitude = 10;
+                        var period = 2000;
+                        // in ms
+                        var startY = start.y - (marker.height / 10) - 10 ;
+                        var endY = end.y - (marker.height / 10) - 10 ;
+                        var anim = new Konva.Animation(function(frame) {
+                            startM.y(
+                                amplitude * Math.sin((frame.time * 2 * Math.PI) / period) + startY
+                            );
+                            endM.y(
+                                amplitude * Math.sin((frame.time * 2 * Math.PI) / period) + endY
+                            );
+
+                        }, layer);
+
+                        anim.start();
+                    };
+
+                    marker.src = '/img/m-red.png';
+                    layer.draw();
+
+                    // [start, end].forEach(e => {
+                    //     console.log('s');
+                    //     let marker = new Image();
+                    //     marker.onload = function() {
+                    //         map = new Konva.Image({
+                    //             x: e.x - ((marker.width / 10) / 2),
+                    //             y: e.y - (marker.height / 10),
+                    //             image: marker,
+                    //             width: marker.width / 10,
+                    //             height: marker.height / 10,
+                    //         });
+
+                    //         // add the shape to the layer
+                    //         layer.add(map);
+                    //     };
+
+                    //     marker.src = '/img/m-red.png';
+                    //     layer.draw();
+                    // });
+
 
                 }
 
