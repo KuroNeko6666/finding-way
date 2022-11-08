@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique 
+  name  String?
+}
+
+model Floor {
+  id          Int          @id @default(autoincrement())
+  name        String
+  coordinates Coordinate[]
+}
+
+model Coordinate {
+  id       Int    @id @default(autoincrement())
+  name     String
+  x_cord   Int
+  y_cord   Int
+  type     Type   @default(TARGET)
+  floor_id Int
+  floor    Floor  @relation(fields: [floor_id], references: [id])
+
+  @@index([floor_id], map: "Coordinate_floor_id_fkey")
+}
+
+enum Type {
+  TARGET
+  NON_TARGET
+}
