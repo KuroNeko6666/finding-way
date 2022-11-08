@@ -6,9 +6,7 @@
     "dev": "next dev",
     "start": "next start",
     "lint": "next lint",
-    "build": "yarn bootstrap && next build",
-    "bootstrap": "run-p -l --silent --aggregate-output bootstrap:*",
-    "bootstrap:robots-txt": "NODE_ENV=production node bootstrap-robots.js"
+    "build": "next build"
   },
   "dependencies": {
     "@prisma/client": "^4.5.0",
